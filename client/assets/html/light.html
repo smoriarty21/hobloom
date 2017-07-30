@@ -1,0 +1,9 @@
+<div class="light-wrapper">
+  <div class="light-name">{{light.getName()}}</div>
+  <div class="light-status-wrapper">
+    <div class="light-status-image-spacer"></div>
+    <div class="light-status-image-on" *ngIf="light.isRunning()"></div>
+    <div class="light-status-image-off" *ngIf="!light.isRunning()"></div>
+  </div>
+  <div class="delete-wrapper" *ngIf="deleteMode"></div>
+</div>

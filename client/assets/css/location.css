@@ -1,0 +1,97 @@
+.onoffswitch {
+  position: relative;
+  margin: 20px auto;
+  width: 95px;
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+  display: none;
+}
+.onoffswitch-label {
+  display: block; overflow: hidden; cursor: pointer;
+  height: 36px; padding: 0; line-height: 36px;
+  border: 0px solid #999999; border-radius: 22px;
+  background-color: #272727;
+}
+.onoffswitch-label:before {
+  content: "";
+  display: block; width: 22px; margin: 7px;
+  background: #27A1CA;
+  position: absolute; top: 0; bottom: 0;
+  right: 55px;
+  border-radius: 22px;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label {
+  background-color: #FFCA28;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+  border-color: #FFCA28;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label:before {
+  right: 0px;
+  background-color: #27A1CA;
+}
+
+#location-wrapper {
+  width: 410px;
+  height: 200px;
+  margin: 10px 0 0 10px;
+  background-color: #363636;
+}
+
+#location-head-text {
+  display: inline-block;
+  width: 100%;
+  color: #FFF;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 24px;
+}
+
+#current-location-wrapper {
+  display: inline-block;
+  text-align: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+#current-location-text {
+  display: inline-block;
+  text-align: right;
+  margin-right: 10px;
+  color: #FFF;
+  font-size: 20px;
+}
+
+#edit-location {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-image: url('assets/images/edit-white.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.sebm-google-map-container {
+  display: inline-block;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  margin: 10px 10px;
+}
+
+#edit-location-wrapper {
+  z-index: 10 !important;
+  background-color: #363636;
+  margin: auto;
+  position: fixed;
+  width: 70%;
+  height: 70%;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+#set-info-button {
+
+}

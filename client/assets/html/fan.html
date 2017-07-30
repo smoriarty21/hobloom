@@ -1,0 +1,9 @@
+<div class="fan-wrapper">
+  <div class="fan-name">{{fan.getName()}}</div>
+  <div class="fan-status-wrapper">
+    <div class="fan-status-image-spacer"></div>
+    <div class="fan-status-image-on" *ngIf="fan.isRunning()"></div>
+    <div class="fan-status-image-off" *ngIf="!fan.isRunning()"></div>
+  </div>
+  <div class="delete-wrapper" *ngIf="deleteMode"></div>
+</div>

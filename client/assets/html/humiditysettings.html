@@ -1,0 +1,25 @@
+<div class="setting-wrapper">
+  <div class="setting-title">Humidity</div>
+  <div class="setting-title-low">Settings</div>
+  <div class="setting-change-wrapper">
+    <div class="up-arrow-wrapper" (click)="changeHumidity(false, true)">
+      <img src="../assets/images/arrowup.png" class="arrow" />
+    </div>
+    <div class="setting-text">MIN</div>
+    <div class="setting">{{minHumidity}}%</div>
+    <div class="down-arrow-wrapper" (click)="changeHumidity(false, false)">
+      <img src="../assets/images/arrowdown.png" class="arrow" />
+    </div>
+  </div>
+  <div class="setting-change-spacer"></div>
+  <div class="setting-change-wrapper">
+    <div class="max-up-arrow-wrapper" (click)="changeHumidity(true, true)">
+      <img src="../assets/images/arrowup.png" class="arrow" />
+    </div>
+    <div class="max-setting-text">MAX</div>
+    <div class="max-setting">{{maxHumidity}}%</div>
+    <div class="max-down-arrow-wrapper" (click)="changeHumidity(true, false)">
+      <img src="../assets/images/arrowdown.png" class="arrow" />
+    </div>
+  </div>
+</div>

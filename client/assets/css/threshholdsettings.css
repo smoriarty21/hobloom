@@ -1,0 +1,100 @@
+.setting-wrapper {
+  width: 200px;
+  height: 410px;
+  margin: 10px 0 0 10px;
+  background-color: #363636;
+}
+
+.setting-title {
+  display: inline-block;
+  font-size: 28px;
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+  color: #FFF;
+}
+
+.setting-title-low {
+  display: inline-block;
+  font-size: 28px;
+  width: 100%;
+  text-align: center;
+  color: #FFF;
+}
+
+.setting-change-wrapper {
+  display: inline-block;
+  margin-top: 110px;
+  width: 10%;
+}
+
+.setting-change-spacer {
+  display: inline-block;
+  width: 10%;
+}
+
+.up-arrow-wrapper {
+  width: 90%;
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
+.down-arrow-wrapper {
+  margin-top: 5px;
+  width: 90%;
+  margin-left: 20px;
+}
+
+.max-up-arrow-wrapper {
+  width: 90%;
+  margin-left: 85px;
+  margin-bottom: 5px;
+}
+
+.max-down-arrow-wrapper {
+  margin-top: 5px;
+  width: 90%;
+  margin-left: 85px;
+}
+
+.arrow {
+  height: 20px;
+  width: 45px;
+}
+
+
+.setting-text {
+  width: 100%;
+  font-weight: bold;
+  font-size: 18px;
+  color: #C6FF00;
+  margin-top: 30px;
+  margin-left: 25px;
+}
+
+.setting {
+  width: 100%;
+  margin-bottom: 30px;
+  margin-left: 25px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #C6FF00;
+}
+
+.max-setting-text {
+  width: 100%;
+  font-weight: bold;
+  font-size: 18px;
+  color: #C6FF00;
+  margin-top: 30px;
+  margin-left: 88px;
+}
+
+.max-setting {
+  width: 100%;
+  margin-bottom: 30px;
+  margin-left: 88px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #C6FF00;
+}

@@ -1,0 +1,89 @@
+.sensor-wrapper {
+  width: 200px;
+  height: 250px;
+  background-color: #1C1F24;
+  border: 2px solid #D75813;
+  border-radius: 8px;
+  float: left;
+  margin-left: 25px;
+  margin-top: 25px;
+}
+
+.sensor-info-wrapper {
+  height: calc(100% - 10px);
+  width: 100%;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.sensor-name {
+  color: #D75813;
+  width: 100%;
+  text-align: center;
+  font-size: 26px;
+}
+
+.sensor-info-spacer {
+  display: inline-block;
+  width: 10%;
+}
+
+.sensor-reading-wrapper {
+  width: 100%;
+  margin-top: 25px;
+}
+
+.sensor-reading {
+  color: #D75813;
+  width: 100%;
+  font-size: 32px;
+  text-align: center;
+}
+
+.adjust-sensor-setting-wrapper {
+  display: inline-block;
+  width: 49%;
+  margin-top: 20px;
+}
+
+.up-arrow-wrapper {
+  width: 90%;
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
+.down-arrow-wrapper {
+  margin-top: 5px;
+  width: 90%;
+  margin-left: 20px;
+}
+
+.max-up-arrow-wrapper {
+  width: 90%;
+  margin-left: 30px;
+  margin-bottom: 5px;
+}
+
+.max-down-arrow-wrapper {
+  margin-top: 5px;
+  width: 90%;
+  margin-left: 30px;
+}
+
+.arrow {
+  height: 20px;
+  width: 45px;
+}
+
+.current-setting-wrapper {
+  margin-left: 28px;
+}
+
+.max-current-setting-wrapper {
+  margin-left: 38px;
+}
+
+.current-setting {
+  font-size: 26px;
+  color: #D75813;
+}

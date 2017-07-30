@@ -1,0 +1,26 @@
+{
+  "name": "HOBloom",
+  "description": "Automed grow room management",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smoriarty21/HOBloom.git"
+  },
+  "license": "GPL-3.0",
+  "main": "hobloom.js",
+  "dependencies": {
+    "beaglebone-dht": "0.0.3",
+    "bluebird": "*",
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.1",
+    "express": "*",
+    "mongodb": "^2.2.11",
+    "nodemailer": "^2.7.0",
+    "nodemailer-smtp-transport": "^2.7.2",
+    "sqlite": "^2.2.4",
+    "sqlite3": "^3.1.8",
+    "time": "^0.11.4",
+    "twilio": "^2.11.1",
+    "underscore": "^1.8.3",
+    "bonescript": "*"
+  }
+}

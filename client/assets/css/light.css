@@ -1,0 +1,56 @@
+.light-wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 10px 0 0 10px;
+  background-color: #363636;
+}
+
+.light-name {
+  display: inline-block;
+  font-size: 32px;
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+  color: #FFF;
+}
+
+.light-status-wrapper {
+  width: 100%;
+  height: 10%;
+  margin-top: 25px;
+}
+
+.light-status-image-spacer {
+  display: inline-block;
+  width: calc(50% - 45px);
+}
+
+.light-status-image-on {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  background-image: url('assets/images/lighton.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.light-status-image-off {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  background-image: url('assets/images/lightoff.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.delete-wrapper {
+  z-index: 2;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  opacity: 0.5;
+}

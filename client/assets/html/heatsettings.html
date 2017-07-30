@@ -1,0 +1,25 @@
+<div class="setting-wrapper">
+  <div class="setting-title">Heat</div>
+  <div class="setting-title-low">Settings</div>
+  <div class="setting-change-wrapper">
+    <div class="up-arrow-wrapper" (click)="changeHeat(false, true)">
+      <img src="../assets/images/arrowup.png" class="arrow" />
+    </div>
+    <div class="setting-text">MIN</div>
+    <div class="setting">{{minHeat}}</div>
+    <div class="down-arrow-wrapper" (click)="changeHeat(false, false)">
+      <img src="../assets/images/arrowdown.png" class="arrow" />
+    </div>
+  </div>
+  <div class="setting-change-spacer"></div>
+  <div class="setting-change-wrapper">
+    <div class="max-up-arrow-wrapper" (click)="changeHeat(true, true)">
+      <img src="../assets/images/arrowup.png" class="arrow" />
+    </div>
+    <div class="max-setting-text">MAX</div>
+    <div class="max-setting">{{maxHeat}}</div>
+    <div class="max-down-arrow-wrapper" (click)="changeHeat(true, false)">
+      <img src="../assets/images/arrowdown.png" class="arrow" />
+    </div>
+  </div>
+</div>

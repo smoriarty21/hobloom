@@ -1,0 +1,69 @@
+<div id="settingsContainer">
+  <div id="settingsDataContainer">
+    <div class="settingTextContainer">
+      <div class="settingText">Control Humidity</div>
+    </div>
+    <div class="settingToggleContainer">
+      <div class="toggleWrapper">
+        <div class="onoffswitch">
+          <input [(ngModel)]="humiditySettingsEnabled" (click)="updateHumiditySettings()" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch1" checked>
+          <label class="onoffswitch-label" for="myonoffswitch1"></label>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="settingTextContainer">
+      <div class="settingText">Control Heat</div>
+    </div>
+    <div class="settingToggleContainer">
+      <div class="toggleWrapper">
+        <div class="onoffswitch">
+          <input [(ngModel)]="humiditySettingsEnabled" (click)="updateHumiditySettings()" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch1" checked>
+          <label class="onoffswitch-label" for="myonoffswitch1"></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="closeBtnContainer">
+    <button type="button" id="closeButton" class="btn btn-danger" (click)="closeSettings()">Close</button>
+  </div>
+</div>
+<!--<div id="settings-wrapper">
+  <div id="settings-menu">
+    <ul class="nav nav-pills nav-stacked">
+      <li role="presentation"><a href="#">Dashboard</a></li>
+      <li role="presentation"><a href="#">Sensors</a></li>
+      <li role="presentation"><a href="#">Appliances</a></li>
+    </ul>
+  </div>
+  <div id="settings-content">
+    <div id="dashboard-settings" *ngIf="showDashboard">
+      <div class="settings-content-text">Humidity Settings</div>
+      <div class="switch-wrapper">
+        <div class="onoffswitch">
+          <input [(ngModel)]="humiditySettingsEnabled" (click)="updateHumiditySettings()" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch1" checked>
+          <label class="onoffswitch-label" for="myonoffswitch1"></label>
+        </div>
+      </div>
+      <div class="settings-content-text">Temperature Settings</div>
+      <div class="switch-wrapper">
+        <div class="onoffswitch">
+          <input [(ngModel)]="temperatureSettingsEnabled" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch2" checked>
+          <label class="onoffswitch-label" for="myonoffswitch2"></label>
+        </div>
+      </div>
+      <div class="settings-content-text">Mock Locations</div>
+      <div class="switch-wrapper">
+        <div class="onoffswitch">
+          <input [(ngModel)]="mockLocationsEnabled" (click)="updateMockLocations()" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch3" checked>
+          <label class="onoffswitch-label" for="myonoffswitch3"></label>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="closeSettings()">Close</button>
+    </div>
+  </div>
+</div>-->

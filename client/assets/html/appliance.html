@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="../css/appliance.css">
+
+<div *ngFor='let appliance of appliances'>
+  <div class="appliance-wrapper">
+    <div class="appliance-info-wrapper">
+      <div class="appliance-title">{{appliance.name}}</div>
+      <div class="appliance-state-wrapper">
+        <div class="appliance-state">{{appliance.running ? "On" : "Off"}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+

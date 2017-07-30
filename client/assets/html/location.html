@@ -1,0 +1,25 @@
+<div>
+  <div id="location-wrapper">
+    <div id="location-head-text">Mock Location</div>
+    <div class="onoffswitch">
+      <input (click)="test()" [(ngModel)]="enabled" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+      <label class="onoffswitch-label" for="myonoffswitch"></label>
+    </div>
+    <div id="current-location-wrapper">
+      <div id="current-location-text">{{ currentLocation }}</div>
+      <div id="edit-location" (click)="onEditLocationClick()"></div>
+    </div>
+  </div>
+  <div id="edit-location-wrapper" *ngIf="showEditLocation">
+    <sebm-google-map [latitude]="lat" [longitude]="lng">
+      <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="mapMarkerDragEnd($event)">
+        <sebm-google-map-info-window [disableAutoPan]="true" [isOpen]="true">
+          <div id="set-info-button">
+            <button type="button" class="btn btn-primary" (click)="onSetLocationClick()">Set Location</button>
+            <button type="button" class="btn btn-danger" (click)="onCloseLocationClick()">Close</button>
+          </div>
+        </sebm-google-map-info-window>
+      </sebm-google-map-marker>
+    </sebm-google-map>
+  </div>
+</div>

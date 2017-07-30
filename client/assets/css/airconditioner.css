@@ -1,0 +1,7 @@
+.status-image-on {
+  background-image: url('assets/images/acon.png') !important;
+}
+
+.status-image-off {
+  background-image: url('assets/images/acoff.png') !important;
+}

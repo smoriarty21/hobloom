@@ -1,0 +1,9 @@
+<div class="wrapper">
+  <div class="name">{{heater.getName()}}</div>
+  <div class="status-wrapper">
+    <div class="status-image-spacer"></div>
+    <div class="status-image-on" *ngIf="heater.isRunning()"></div>
+    <div class="status-image-off" *ngIf="!heater.isRunning()"></div>
+  </div>
+  <div class="delete-wrapper" *ngIf="deleteMode"></div>
+</div>

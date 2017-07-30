@@ -1,0 +1,68 @@
+<div *ngFor='let sensor of sensors'>
+  <div *ngIf="sensor.getType() == 'dht11' || sensor.getType() == 'dht22'">
+    <div class="sensor-wrapper">
+      <div class="sensor-info-wrapper">
+        <div class="sensor-name">Temperature</div>
+        <div class="sensor-reading-wrapper">
+          <div class="sensor-reading">{{sensor.getTemp()}}&deg;</div>
+        </div>
+        <div class="adjust-sensor-wrapper">
+          <div class="adjust-sensor-setting-wrapper">
+            <div class="up-arrow-wrapper">
+              <img src="../assets/images/arrowup.png" class="arrow" />
+            </div>
+            <div class="current-setting-wrapper">
+              <div class="current-setting">75</div>
+            </div>
+            <div class="down-arrow-wrapper">
+              <img src="../assets/images/arrowdown.png" class="arrow" />
+            </div>
+          </div>
+          <div class="adjust-sensor-setting-wrapper">
+            <div class="max-up-arrow-wrapper">
+              <img src="../assets/images/arrowup.png" class="arrow" />
+            </div>
+            <div class="max-current-setting-wrapper">
+              <div class="current-setting">85</div>
+            </div>
+            <div class="max-down-arrow-wrapper">
+              <img src="../assets/images/arrowdown.png" class="arrow" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sensor-wrapper">
+      <div class="sensor-info-wrapper">
+        <div class="sensor-name">Humidity</div>
+        <div class="sensor-reading-wrapper">
+          <div class="sensor-reading">{{sensor.getHumidity()}}&deg;</div>
+        </div>
+        <div class="adjust-sensor-wrapper">
+          <div class="adjust-sensor-setting-wrapper">
+            <div class="up-arrow-wrapper" (click)="changeHumidity(false, true)">
+              <img src="../assets/images/arrowup.png" class="arrow" />
+            </div>
+            <div class="current-setting-wrapper">
+              <div class="current-setting">{{minHumidity}}</div>
+            </div>
+            <div class="down-arrow-wrapper" (click)="changeHumidity(false, false)">
+              <img src="../assets/images/arrowdown.png" class="arrow" />
+            </div>
+          </div>
+          <div class="adjust-sensor-setting-wrapper">
+            <div class="max-up-arrow-wrapper" (click)="changeHumidity(true, true)">
+              <img src="../assets/images/arrowup.png" class="arrow" />
+            </div>
+            <div class="max-current-setting-wrapper">
+              <div class="current-setting">{{maxHumidity}}</div>
+            </div>
+            <div class="max-down-arrow-wrapper" (click)="changeHumidity(true, false)">
+              <img src="../assets/images/arrowdown.png" class="arrow" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+<div id="dashboard-wrapper">
+  <div id="dashboard-menu-wrapper">
+    <div id="top-bar-logo"></div>
+    <div class="top-menu-link" id="settings-link" (click)="showSettingsUI()"></div>
+    <div class="top-menu-link" id="cycle-clock-link" (click)="showCycleTimesUI()"></div>
+    <div class="top-menu-link" id="remove-item-link" (click)="showDeletePanels()"></div>
+    <div class="top-menu-link" id="add-item-link" (click)="showAddDeviceUI()"></div>
+  </div>
+  <div id="main-container-wrapper">
+    <humidity-settings *ngIf="showHumiditySettings" [settings]="settings" style="float: left"></humidity-settings>
+    <heat-settings *ngIf="showHumiditySettings" [settings]="settings" style="float: left"></heat-settings>
+    <clock style="float: left"></clock>
+    <humidity-reading style="float: left" [humidity]="humidity"></humidity-reading>
+    <temperature-reading style="float: left" [temperature]="temperature"></temperature-reading>
+    <light *ngFor="let light of lights" [light]="light" [deleteMode]="deleteMode" (click)="deleteClick(light.id, light.getName())" style="float: left"></light>
+    <humidifier *ngFor="let humidifier of humidifiers" [humidifier]="humidifier" [deleteMode]="deleteMode" (click)="deleteClick(humidifier.id, humidifier.getName())" style="float: left"></humidifier>
+    <dehumidifier *ngFor="let dehumidifier of dehumidifiers" [dehumidifier]="dehumidifier" [deleteMode]="deleteMode" (click)="deleteClick(dehumidifier.id, dehumidifier.getName())" style="float: left"></dehumidifier>
+    <heater *ngFor="let heater of heaters" [heater]="heater" [deleteMode]="deleteMode" (click)="deleteClick(heater.id, heater.getName())" style="float: left"></heater>
+    <air-conditioner *ngFor="let ac of airConditioners" [ac]="ac" [deleteMode]="deleteMode" (click)="deleteClick(ac.id, ac.getName())" style="float: left"></air-conditioner>
+    <fan *ngFor="let fan of fans" [fan]="fan" [deleteMode]="deleteMode" (click)="deleteClick(fan.id, fan.getName())" style="float: left"></fan>
+    <current-cycle [cycle]="currentCycle" style="float: left"></current-cycle>
+    <!--<location *ngIf="showMockLocations" style="float: left" [showBlackout]="showBlackout" (showBlackoutChanged)="onEditLocationClick($event)"></location>-->
+    <div style="display: inline-block; width: 100%; height: 5px"></div>
+  </div>
+  <div id="blackout" *ngIf="showBlackout" (click)="closeAllWindows()"></div>
+  <div id="addDeviceSelectType" *ngIf="showAddDeviceTypeSelect">
+    <div id="addDeviceSelectTypeInner">
+      <select class="form-control" id="deviceTypeSelect" [(ngModel)]="selectedDeviceType" >
+        <option *ngFor="let type of deviceTypes">{{ type }}</option>
+      </select>
+      <div id="addDeviceSelectTypeButtonsWrapper">
+        <div id="addDeviceCancelButton"><button class="btn btn-danger" type="button" (click)="hideAddDeviceUI()">Close</button></div>
+        <div id="addDeviceSelectButton"><button class="btn btn-success" type="button" style="float: right" (click)="goToAddSensorType()">Create</button></div>
+      </div>
+    </div>
+  </div>
+  <div id="addDeviceWrapper" *ngIf="showDeviceAddContainer">
+    <div id="addDeviceInnerWrapper">
+      <div id="addDeviceInfoContainer">
+        <div id="addDeviceNameInputContainer">
+          <input type="text" class="form-control" placeholder="Display Name" [(ngModel)]="addDeviceNameInput" />
+        </div>
+        <div id="deviceTypeSelectContainer">
+          <select class="form-control" id="addDeviceTypeSelect" [(ngModel)]="createDeviceType" >
+            <option *ngFor="let type of addDeviceType">{{ type }}</option>
+          </select>
+        </div>
+        <div id="devicePinSelectContainer">
+          <select class="form-control" id="addDevicePinSelect" [(ngModel)]="createDevicePin" >
+        <option *ngFor="let pin of allPins">{{ pin }}</option>
+        </select>
+        </div>
+      </div>
+      <div id="addDeviceFinalButtonContainer">
+        <div id="addDeviceCloseButton"><button class="btn btn-danger" type="button" (click)="hideAddDeviceUI()">Close</button></div>
+        <div id="addDeviceAddButton"><button class="btn btn-success" type="button" style="float: right" (click)="onAddDeviceClick()">Create</button></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="confirmDeleteContainer" *ngIf="showConfirmDelete">
+    <div id="confirmDeleteInnerContainer">
+      <div id="confirmDeleteContentContainer">
+        <div id="confirmDeleteText">Are you sure you would like to delete {{currentDeleteName}}?</div>
+        <div id="confirmDeleteButtonContainer">
+          <div id="confirmDeleteNo"><button class="btn btn-danger" type="button" (click)="closeAllWindows()">No</button></div>
+          <div id="confirmDeleteYes"><button class="btn btn-success" type="button" style="float: right" (click)="deleteAsset()">Yes</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="changeCycleTimesContainer" *ngIf="showCycleTimeSettings">
+    <div id="cycleInfoMainWrapper">
+      <div class="changeCycleTextContainer">Day Start</div>
+      <div class="changeCycleDropDownContainer">
+        <select class="form-control" id="cycleStartTimeSetting" [ngModel]="selectedDayStart" (change)="onDayStartChange($event.target.value)">
+          <option *ngFor="let time of startDayTimes" [ngValue]="time" [selected]="time === selectedDayStart">{{time}}</option>
+        </select>
+      </div>
+      <div class="changeCycleTextContainer">Day End</div>
+      <div class="changeCycleDropDownContainer">
+        <select class="form-control" id="cycleEndTimeSetting" [ngModel]="selectedDayEnd" (change)="onDayEndChange($event.target.value)">
+          <option *ngFor="let time of endDayTimes" [ngValue]="time" [selected]="time === selectedDayEnd">{{time}}</option>
+        </select>
+      </div>
+      <div id="changeCycleCloseBtnContainer">
+        <button class="btn btn-success" type="button" (click)="updateCycleTimeSettings()" style="float: left; margin-left: 5%">Save</button>
+        <button class="btn btn-danger" type="button" (click)="hideChangeCycleTimeUI()">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+  <settings *ngIf="showSettings" [showHumiditySettings]="showHumiditySettings" (sendHumiditySettingsUpdate)="updateHumiditySettingsUI($event)" (closeWindows)="closeAllWindows()" style="position:fixed;top:0;left:0;height:100%;width:100%;z-index: 10;"></settings>
+</div>

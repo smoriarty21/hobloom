@@ -1,0 +1,9 @@
+<div class="humidifier-wrapper">
+  <div class="humidifier-name">{{humidifier.getName()}}</div>
+  <div class="humidifier-status-wrapper">
+    <div class="humidifier-status-image-spacer"></div>
+    <div class="humidifier-status-image-on" *ngIf="humidifier.isRunning()"></div>
+    <div class="humidifier-status-image-off" *ngIf="!humidifier.isRunning()"></div>
+  </div>
+  <div class="delete-wrapper" *ngIf="deleteMode"></div>
+</div>

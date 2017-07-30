@@ -1,0 +1,19 @@
+<div class="cycle-wrapper">
+  <div class="cycle-head-text">Currrent Cycle</div>
+  <div *ngIf="cycle === 'Day'">
+    <div class="cycle-image-day-wrapper">
+      <div class="cycle-image-day"></div>
+    </div>
+    <div class="cycle-text-day">
+      <div class="cycle-text-day-text">Day</div>
+    </div>
+  </div>
+  <div *ngIf="cycle === 'Night'">
+    <div class="cycle-image-night-wrapper">
+      <div class="cycle-image-night"></div>
+    </div>
+    <div class="cycle-text-night">
+      <div class="cycle-text-night-text">Night</div>
+    </div>
+  </div>
+</div>

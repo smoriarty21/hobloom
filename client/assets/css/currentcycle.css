@@ -1,0 +1,77 @@
+.cycle-wrapper {
+  width: 410px;
+  height: 200px;
+  margin: 10px 0 0 10px;
+  background-color: #363636;
+}
+
+.cycle-head-text {
+  display: inline-block;
+  width: 100%;
+  color: #FFF;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 24px;
+}
+
+.cycle-text-day {
+  display: inline-block;
+  width: 54%;
+  color: #FFEE58;
+  font-size: 66px;
+  text-align: left;
+}
+
+.cycle-text-day-text {
+  display: inline-block;
+  position: relative;
+  top: -10px;
+}
+
+.cycle-image-day-wrapper {
+  display: inline-block;
+  width: 43%;
+  margin-top: 20px;
+}
+
+.cycle-image-day {
+  display: inline-block;
+  margin-right: 10px;
+  float: right;
+  width: 66px;
+  height: 66px;
+  background-image: url('assets/images/sun.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.cycle-text-night {
+  display: inline-block;
+  width: 54%;
+  color: #7e57c2;
+  font-size: 66px;
+  text-align: left;
+}
+
+.cycle-text-night-text {
+  display: inline-block;
+  position: relative;
+  top: -15px;
+}
+
+.cycle-image-night-wrapper {
+  display: inline-block;
+  width: 38%;
+  margin-top: 20px;
+}
+
+.cycle-image-night {
+  display: inline-block;
+  margin-right: 10px;
+  float: right;
+  width: 66px;
+  height: 66px;
+  background-image: url('assets/images/moon.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}

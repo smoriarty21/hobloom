@@ -1,0 +1,24 @@
+.reading-wrapper {
+  width: 200px;
+  height: 200px;
+  margin: 10px 0 0 10px;
+  background-color: #363636;
+}
+
+.reading-name {
+  display: inline-block;
+  font-size: 32px;
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+  color: #FFF;
+}
+
+.reading {
+  display: inline-block;
+  margin-top: 30px;
+  text-align: center;
+  font-size: 65px;
+  color: #5C6BC0;
+  width: 100%;
+}

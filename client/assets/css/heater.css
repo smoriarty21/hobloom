@@ -1,0 +1,7 @@
+.status-image-on {
+  background-image: url('assets/images/heateron.png') !important;
+}
+
+.status-image-off {
+  background-image: url('assets/images/heateroff.png') !important;
+}

@@ -1,0 +1,37 @@
+.appliance-wrapper {
+  height: 150px;
+  width: 150px;
+  margin-left: 25px;
+  margin-top: 25px;
+  color: #AB0000;
+  float: left;
+  background-color: #1C1F24;
+  border: 2px solid #AB0000;
+  border-radius: 8px;
+}
+
+.appliance-info-wrapper {
+  height: 90%;
+  width: 100%;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.appliance-title {
+  height: 20%;
+  width: 100%;
+  color: #AB0000;
+  text-align: center;
+  font-size: 22px;
+}
+
+.appliance-state-wrapper {
+  width: 100%;
+  margin-top: 35px;
+}
+
+.appliance-state {
+  width: 100%;
+  font-size: 18px;
+  text-align: center;
+}
