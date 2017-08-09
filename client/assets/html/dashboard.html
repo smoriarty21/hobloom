@@ -9,7 +9,7 @@
   </div>
   <div id="main-container-wrapper">
     <humidity-settings *ngIf="showHumiditySettings" [settings]="settings" style="float: left"></humidity-settings>
-    <heat-settings *ngIf="showHumiditySettings" [settings]="settings" style="float: left"></heat-settings>
+    <heat-settings *ngIf="showHeatSettings" [settings]="settings" style="float: left"></heat-settings>
     <clock style="float: left"></clock>
     <humidity-reading style="float: left" [humidity]="humidity"></humidity-reading>
     <temperature-reading style="float: left" [temperature]="temperature"></temperature-reading>
@@ -96,5 +96,5 @@
   </div>
 
 
-  <settings *ngIf="showSettings" [showHumiditySettings]="showHumiditySettings" (sendHumiditySettingsUpdate)="updateHumiditySettingsUI($event)" (closeWindows)="closeAllWindows()" style="position:fixed;top:0;left:0;height:100%;width:100%;z-index: 10;"></settings>
+  <settings *ngIf="showSettings" [showHumiditySettings]="showHumiditySettings" [showHeatSettings]="showHeatSettings" (sendHeatSettingsUpdate)="updateHeatSettingsUI($event)" (sendHumiditySettingsUpdate)="updateHumiditySettingsUI($event)" (closeWindows)="closeAllWindows()" style="position:fixed;top:0;left:0;height:100%;width:100%;z-index: 10;"></settings>
 </div>

@@ -61,6 +61,7 @@ export class AppComponent  {
   showCreateSensor: boolean;
   showSettings: boolean;
   showHumiditySettings: boolean;
+  showHeatSettings: boolean;
   //showMockLocations: boolean;
   showDeviceAddContainer: boolean;
   deleteMode: boolean;
@@ -70,7 +71,6 @@ export class AppComponent  {
 
   constructor(private http: Http) {
     this.router = new Router();
-    //this.showMockLocations = true;
     this.showBlackout = false;
     this.showEditAppliance = false;
     this.showConfirmDialog = false;
@@ -299,6 +299,9 @@ export class AppComponent  {
 
   getFans(appliances: Array<Appliance>) {
     let fans = Array();
+    if (typeof appliances == 'undefined') {
+      return;
+    }
     appliances.forEach((appliance: Appliance) => {
       if (appliance.type == 'exhaust' || appliance.type == 'intake') {
         fans.push(appliance);
@@ -309,6 +312,9 @@ export class AppComponent  {
 
   getApplianceByType(appliances: Array<Appliance>, type: String) {
     let arr = Array();
+    if (typeof appliances == 'undefined') {
+      return;
+    }
     appliances.forEach((appliance: Appliance) => {
       if (appliance.getType() === type) {
         arr.push(appliance);
@@ -321,6 +327,10 @@ export class AppComponent  {
     this.showHumiditySettings = !event;
   }
 
+  public updateHeatSettingsUI(event: boolean) {
+    this.showHeatSettings = !event;
+  }
+
   private getSettings() {
     this.http.get(GlobalConfig.BASE_URL + 'settings')
       .map( (responseData) => {
@@ -328,8 +338,11 @@ export class AppComponent  {
       })
       .map( (responseData) => {
         for (var i = 0; i < responseData.length; i++) {
-          if (responseData[i].key === 'SHOW_SET_HUMIDITY') {
-            this.showHumiditySettings = responseData[i].value == '1';
+          if (responseData[i].key === 'CONTROL_HUMIDITY') {
+            this.showHumiditySettings = responseData[i].value == 'true';
+            console.log(this.showHumiditySettings);
+          } else if (responseData[i].key === 'CONTROL_HEAT') {
+            this.showHeatSettings = responseData[i].value == 'true';
           } else if (responseData[i].key === 'START_DAY') {
             this.dayStart = responseData[i].value;
           } else if (responseData[i].key === 'END_DAY') {
@@ -344,6 +357,9 @@ export class AppComponent  {
 
   private updateLights(appliances: Array<Appliance>) {
     this.lights = new Array<Appliance>();
+    if (typeof appliances == 'undefined') {
+      return;
+    }
     if (appliances.length) {
       appliances.forEach((appliance: any) => {
         if (appliance.getType() == 'light') {

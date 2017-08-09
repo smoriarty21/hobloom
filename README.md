@@ -1,8 +1,5 @@
 ## HOBloom ##
-Do you like the idea of changing light timing temperature and humidity settings from anywhere that you have an internet connetion?
-If so HOBloom is for you.  This system allows you to purchase some very cost efficient hardware and sensors giving you the features 
-of multi thousand dollar systems for anywhere from around $60 for basic monitoring.  You can add smart outlets to control appliacnes and lights 
-built your system out piece by piece for very low prices.
+Do you like the idea of changing light timing temperature and humidity settings from anywhere that you have an internet connection? If so HOBloom is for you. This system allows you to purchase some very cost efficient hardware and sensors giving you the features of multi thousand dollar systems for anywhere from around $60 for basic monitoring. You can add smart outlets to control appliances and lights built your system out piece by piece for very low prices.
  
 ## Setup And Installation ##
 Everything you need to know from what you need to buy to what you need to do to set everything up can be found at the HighTek wiki [here](http://wiki.hightekco.com/index.php/HOBloom).  Below I have added a list of direct link to helpful areas in the documentation.  If this is your first time setting up the system the lost below is a great place to start.

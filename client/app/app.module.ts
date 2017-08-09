@@ -23,8 +23,6 @@ import { LocationComponent } from "./components/location.component";
 import { SettingsComponent } from "./components/settings.component";
 import { AgmCoreModule } from 'angular2-google-maps/core';
 
-//import '../../node_modules/chart.js/dist/Chart.bundle.min.js';
-
 @NgModule({
   imports: [
     BrowserModule,
