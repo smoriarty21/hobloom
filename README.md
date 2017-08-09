@@ -5,6 +5,7 @@ Do you like the idea of changing light timing temperature and humidity settings 
 Everything you need to know from what you need to buy to what you need to do to set everything up can be found at the HighTek wiki [here](http://wiki.hightekco.com/index.php/HOBloom).  Below I have added a list of direct link to helpful areas in the documentation.  If this is your first time setting up the system the lost below is a great place to start.
 
 * Start Here: [Master Setup Guide](http://ttcubicle.blogspot.com/2017/08/hobloom-how-to-automate-your-grow-room.html)
+* [Smart Outlet Setup](http://ttcubicle.blogspot.com/2017/08/hobloom-building-smart-outlets.html)
 * [Base Unit Info](http://wiki.hightekco.com/index.php/Base_Unit)
 * [Everything You Need To Setup A New Base Unit](http://wiki.hightekco.com/index.php/Setting_Up_Your_New_Base_Unit)
 * [DHT Sensor(Temperature/Humidity) Install Guide](http://wiki.hightekco.com/index.php/DHT_Sensor_Installation)
