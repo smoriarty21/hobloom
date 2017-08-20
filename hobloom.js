@@ -71,8 +71,6 @@ app.post('/asset', function (req, res) {
     }).
     catch(function (err) {
         res.send({ status: 404, data: err});
-        // TODO: Add me
-        //res.send({ status: 409, data: "Conflict"});
     });
 });
 
@@ -355,10 +353,14 @@ function checkCycleTimes() {
 function fireSensorCheck() {
     // Read fire sensor
     var fireSensor = getFireSensor();
+    if (typeof fireSensor == 'undefined') {
+        return;
+    }
 
     var read = bs.digitalRead(fireSensor.getPin());
     if (read === 0) {
-        //alerts.sendFireAlert('sms');
+        alerts.sendFireAlert('sms');
+        return;
     }
 }
 
@@ -577,7 +579,7 @@ function logError(err) {
 }
 
 setInterval(function () { mainLoop(); }, 15*1000);
-//setInterval(function () { fireSensorCheck(); }, 10*1000);
+setInterval(function () { fireSensorCheck(); }, 10*1000);
 
 var initPromise = init();
 var startServerPromise = startServer();
