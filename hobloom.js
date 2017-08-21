@@ -295,31 +295,15 @@ function updateLightsForCycle(cycle) {
 function mainLoop() {
     currentCycle = checkCycleTimes();
     updateLightsForCycle(currentCycle);
-
-    // TODO: should build out an interface for sensor that has a read method I can override based on the sensor type, this way here I can just loop through sensors and call the read method
-    // Read temp
-    var dht11 = sensor_utils.getTempHumiditySensor();
-    if (typeof dht11 == 'undefined' || dht11 == null) {
-        return;
-    }
-    var dht_data = null;
-    var tries = 0;
-    var max_tries = 6;
-    while (dht_data == null && tries <= max_tries) {
-        dht_data = dht.read(dht11.getPin());
-        if (typeof dht_data !== 'undefined') {
-            dht_data.humidity = Math.floor(dht_data.humidity);
-            dht11.setLastReading(dht_data);
-            dht11.setLastReadingTime(new Date());
-            var temp = Math.floor(dht_data.fahrenheit);
-            dl.logSensorData(temp, Math.floor(dht_data.humidity), appliance_utils.getAll()).then(function () {
-                checkEnviroment(dht_data.humidity, temp);
-            });
-            break;
-        } else {
-            tries++;
-        }
-    }
+    enviromentSensor = sensor_utils.getTempHumiditySensor();
+    enviromentReading = enviromentSensor.read();
+    enviromentSensor.setLastReading(enviromentReading);
+    enviromentSensor.setLastReadingTime(new Date());
+    sensor_utils.updateEnviromentSensorInArray(enviromentSensor);
+    
+    dl.logSensorData(enviromentReading.temp, Math.floor(enviromentReading.humidity), appliance_utils.getAll()).then(function () {
+        checkEnviroment(enviromentReading.humidity, enviromentReading.temp);
+    });
 }
 
 function checkCycleTimes() {
