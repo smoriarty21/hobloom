@@ -67,8 +67,9 @@ def setupDatabase():
     c = conn.cursor()
     print 'Creating assets table'
     c.execute("create table assets(id integer primary key autoincrement, name varchar(50), type varchar(50), pin varchar(8), deleted int not null default 0)")
-    print 'Creating logs table'
+    print 'Creating log tables'
     c.execute("create table temp_log(id integer primary key autoincrement, temperature varchar(50), humidity varchar(50), timestamp timestamp)")
+    c.execute("create table appliance_log (appliance_id int not null, running varchar(10) not null, time timestamp not null)")
     print 'Creating settings table'
     c.execute("create table settings (key varchar(50), value varchar(50))")
     print "Seeding Data. Please answer the following questions to configure your system for use."

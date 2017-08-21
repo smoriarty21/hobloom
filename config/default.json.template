@@ -14,7 +14,6 @@
     "to": "+15555555555",
     "from": "+15555555555"
   },
-  "database": {
-     "file": "/home/your_user/hobloom.db"
-   }
+  "database": "/home/your_user/hobloom.db",
+  "database_batch_size": 100
 }
