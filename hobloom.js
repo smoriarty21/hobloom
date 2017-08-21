@@ -337,16 +337,8 @@ function checkCycleTimes() {
 }
 
 function fireSensorCheck() {
-    // Read fire sensor
-    var fireSensor = sensor_utils.getFireSensor();
-    if (typeof fireSensor == 'undefined') {
-        return;
-    }
-
-    var read = bs.digitalRead(fireSensor.getPin());
-    if (read === 0) {
+    if (sensor_utils.getFireSensor().read()) {
         alerts.sendFireAlert('sms');
-        return;
     }
 }
 
