@@ -5,6 +5,7 @@ var cors = require('cors');
 var bodyParser = require('body-parser');
 var dht = require('beaglebone-dht');
 var sensor_utils = require('./lib/sensor_utils');
+var appliance_utils = require('./lib/appliance_utils');
 var dl = require('./lib/data_logger');
 var asset_utils = require('./lib/asset_utils');
 var reports = require('./lib/reports.js');
@@ -15,9 +16,6 @@ var db = require('./lib/db');
 var time = require('time');
 var settings = require('./lib/settings');
 
-// TODO: Move to asset utils
-var sensors = [];
-var appliances = [];
 
 // TODO: Move to config
 // TODO: Seriously why the fuck is this still here
@@ -43,7 +41,7 @@ app.get('/asset', function (req, res) {
         res.send({ status: 404, error: 'No Assets' });
         return;
     }
-    res.send({ status: 200, data: { sensors: sensors, appliances: appliances }});
+    res.send({ status: 200, data: { sensors: sensor_utils.getAllSensors(), appliances: appliance_utils.getAll() }});
 });
 
 app.get('/asset/:assetId', function (req, res) {
@@ -118,25 +116,25 @@ app.post('/sensor', function (req, res) {
 });
 
 app.get('/sensor', function (req, res) {
-    if (!sensors.length) {
+    if (!sensor_utils.getAllSensors().length) {
         res.send({ status: 404, error: 'No Sensors' });
         return;
     }
-    res.send({ status: 200, data: sensors });
+    res.send({ status: 200, data: sensor_utils.getAllSensors() });
 });
 
 // Appliances
 app.get('/appliance', function (req, res) {
-    if (!appliances.length) {
+    if (!appliance_utils.getAll().length) {
         res.send({ status: 404, error: 'No Appliances' });
         return;
     }
-    res.send({ status: 200, data: appliances });
+    res.send({ status: 200, data: appliance_utils.getAll() });
 });
 
 // Reports
 app.get('/report', function (req, res) {
-    reports.getFullStatusReport(appliances).
+    reports.getFullStatusReport(appliance_utils.getAll()).
     then(function (data) {
         if (data === {}) {
             res.send({ status: 404, data: 'Data Not Found' });
@@ -214,7 +212,7 @@ app.get('/cycle', function (req, res) {
 
 // TODO: move to asset utils
 function assetsExist() {
-    return sensors.length > 0 && appliances.length > 0;
+    return sensor_utils.getAllSensors().length > 0 && appliance_utils.getAll().length > 0;
 }
 
 function init() {
@@ -237,26 +235,14 @@ function initAssets(assets) {
     if (typeof assets == 'undefined') {
         return;
     }
-    sensors = assets.sensors;
-    assets.sensors.forEach(function (asset) {
-        if (asset.getType() === 'dht11' || asset.getType() === 'dht22') {
-            dht.sensor(asset.getType().toUpperCase());
-            return;
-        }
-        if (asset.getType() == 'fire') {
-            bs.pinMode(asset.getPin(), bs.INPUT);
-        }
-    });
+    sensor_utils.setupSensors(assets.sensors);
+    dht.sensor(sensor_utils.getTempHumiditySensor().getType().toUpperCase());
+    if (sensor_utils.hasFireSensor()) {
+        bs.pinMode(sensor_utils.getFireSensor().getPin(), bs.INPUT);
+    }
 
-    appliances = assets.appliances;
-    assets.appliances.forEach(function (asset) {
-        bs.pinMode(asset.getPin(), bs.OUTPUT);
-        if (asset.type === 'light') {
-            asset.turnOn();
-            return;
-        }
-        asset.turnOff();
-    });
+    appliance_utils.setAppliances(assets.appliances);
+    appliance_utils.initAppliances();
 }
 
 function updateAssets(assets) {
@@ -265,8 +251,8 @@ function updateAssets(assets) {
             reject('No Assets!');
             return;
         }
-        sensors = assets.sensors;
-        appliances = assets.appliances;
+        sensor_utils.setupSensors(assets.sensors);
+        appliance_utils.setAppliances(assets.appliances);
         resolve(assets);
     });
 }
@@ -284,22 +270,22 @@ function startServer() {
 }
 
 function updateLightsForCycle(cycle) {
-    if (typeof appliances === 'undefined' || !appliances.length) {
+    if (typeof appliance_utils.getAll() === 'undefined' || !appliance_utils.getAll().length) {
         return;
     }
-    for (var i = 0; i < appliances.length; i++) {
-        if (appliances[i].type !== 'light') {
+    for (var i = 0; i < appliance_utils.getAll().length; i++) {
+        if (appliance_utils.getAll()[i].type !== 'light') {
             continue;
         }
         switch (cycle) {
             case 'Day':
-                if (!appliances[i].isRunning()) {
-                    appliances[i].turnOn();
+                if (!appliance_utils.getAll()[i].isRunning()) {
+                    appliance_utils.getAll()[i].turnOn();
                 }
                 break;
             case 'Night':
-                if (appliances[i].isRunning()) {
-                    appliances[i].turnOff();
+                if (appliance_utils.getAll()[i].isRunning()) {
+                    appliance_utils.getAll()[i].turnOff();
                 }
                 break;
         }
@@ -312,7 +298,7 @@ function mainLoop() {
 
     // TODO: should build out an interface for sensor that has a read method I can override based on the sensor type, this way here I can just loop through sensors and call the read method
     // Read temp
-    var dht11 = getDHT();
+    var dht11 = sensor_utils.getTempHumiditySensor();
     if (typeof dht11 == 'undefined' || dht11 == null) {
         return;
     }
@@ -326,7 +312,7 @@ function mainLoop() {
             dht11.setLastReading(dht_data);
             dht11.setLastReadingTime(new Date());
             var temp = Math.floor(dht_data.fahrenheit);
-            dl.logSensorData(temp, Math.floor(dht_data.humidity), appliances).then(function () {
+            dl.logSensorData(temp, Math.floor(dht_data.humidity), appliance_utils.getAll()).then(function () {
                 checkEnviroment(dht_data.humidity, temp);
             });
             break;
@@ -352,7 +338,7 @@ function checkCycleTimes() {
 
 function fireSensorCheck() {
     // Read fire sensor
-    var fireSensor = getFireSensor();
+    var fireSensor = sensor_utils.getFireSensor();
     if (typeof fireSensor == 'undefined') {
         return;
     }
@@ -414,27 +400,27 @@ function handleHeatCheck(temp_return) {
     }
     switch (temp_return) {
         case 0:
-            if (typeof getHeater() != 'undefined' && getHeater().isRunning()) {
-                getHeater().turnOff();
+            if (typeof appliance_utils.getHeater() != 'undefined' && appliance_utils.getHeater().isRunning()) {
+                appliance_utils.getHeater().turnOff();
             }
-            if (typeof getAC() != 'undefined' && getAC().isRunning()) {
-                getAC().turnOff();
+            if (typeof appliance_utils.getAC() != 'undefined' && appliance_utils.getAC().isRunning()) {
+                appliance_utils.getAC().turnOff();
             }
             break;
         case 1:
-            if (typeof getHeater() != 'undefined' && !getHeater().isRunning()) {
-                getHeater().turnOn();
+            if (typeof appliance_utils.getHeater() != 'undefined' && !appliance_utils.getHeater().isRunning()) {
+                appliance_utils.getHeater().turnOn();
             }
-            if (typeof getAC() != 'undefined' && getAC().isRunning()) {
-                getAC().turnOff();
+            if (typeof appliance_utils.getAC() != 'undefined' && appliance_utils.getAC().isRunning()) {
+                appliance_utils.getAC().turnOff();
             }
             break;
         case 2:
-            if (typeof getHeater() != 'undefined' && getHeater().isRunning()) {
-                getHeater().turnOff();
+            if (typeof appliance_utils.getHeater() != 'undefined' && appliance_utils.getHeater().isRunning()) {
+                appliance_utils.getHeater().turnOff();
             }
-            if (typeof getAC() != 'undefined' && !getAC().isRunning()) {
-                getAC().turnOn();
+            if (typeof appliance_utils.getAC() != 'undefined' && !appliance_utils.getAC().isRunning()) {
+                appliance_utils.getAC().turnOn();
             }
             break;
     }
@@ -446,85 +432,36 @@ function handleHumidityCheck(humidity_return) {
     }
     switch (humidity_return) {
         case 0:
-            if (typeof getHumidifier() != 'undefined' && getHumidifier().isRunning()) {
-                getHumidifier().turnOff();
+            if (typeof appliance_utils.getHumidifier() != 'undefined' && appliance_utils.getHumidifier().isRunning()) {
+                appliance_utils.getHumidifier().turnOff();
             }
-            if (typeof getExhaust() != 'undefined' && getExhaust().isRunning()) {
-                getExhaust().turnOff();
+            if (typeof appliance_utils.getExhaust() != 'undefined' && appliance_utils.getExhaust().isRunning()) {
+                appliance_utils.getExhaust().turnOff();
             }
-            if (typeof getDehumidifier() != 'undefined' && getDehumidifier().isRunning()) {
-                getDehumidifier().turnOff();
+            if (typeof appliance_utils.getDehumidifier() != 'undefined' && appliance_utils.getDehumidifier().isRunning()) {
+                appliance_utils.getDehumidifier().turnOff();
             }
             break;
         case 1:
-            if (typeof getHumidifier() != 'undefined' && !getHumidifier().isRunning()) {
-                getHumidifier().turnOn();
+            if (typeof appliance_utils.getHumidifier() != 'undefined' && !appliance_utils.getHumidifier().isRunning()) {
+                appliance_utils.getHumidifier().turnOn();
             }
-            if (typeof getExhaust() != 'undefined' && getExhaust().isRunning()) {
-                getExhaust().turnOff();
+            if (typeof appliance_utils.getExhaust() != 'undefined' && appliance_utils.getExhaust().isRunning()) {
+                appliance_utils.getExhaust().turnOff();
             }
             break;
         case 2:
-            if (typeof getHumidifier() != 'undefined' && getHumidifier().isRunning()) {
-                getHumidifier().turnOff();
+            if (typeof appliance_utils.getHumidifier() != 'undefined' && appliance_utils.getHumidifier().isRunning()) {
+                appliance_utils.getHumidifier().turnOff();
             }
-            if (typeof getDehumidifier() != 'undefined' && !getDehumidifier().isRunning()) {
-                getDehumidifier().turnOn();
+            if (typeof appliance_utils.getDehumidifier() != 'undefined' && !appliance_utils.getDehumidifier().isRunning()) {
+                appliance_utils.getDehumidifier().turnOn();
             }
-            if (typeof getExhaust() != 'undefined' && !getExhaust().isRunning()) {
-                getExhaust().turnOn();
+            if (typeof appliance_utils.getExhaust() != 'undefined' && !appliance_utils.getExhaust().isRunning()) {
+                appliance_utils.getExhaust().turnOn();
             }
             break;
     }
-}
-
-
-function getHumidifier() {
-    return _.find(appliances, function (appliance) {
-        return appliance.getType() === 'humidifier';
-    });
-}
-
-function getDehumidifier() {
-    return _.find(appliances, function (appliance) {
-        return appliance.getType() === 'dehumidifier';
-    });
-}
-
-function getExhaust() {
-    return _.find(appliances, function (appliance) {
-        return appliance.getType() === 'exhaust';
-    });
-}
-
-function getIntake() {
-    return _.find(appliances, function (appliance) {
-        return appliance.getType() === 'intake';
-    });
-}
-
-function getDHT() {
-    return _.find(sensors, function (sensor) {
-        return sensor.getType() === 'dht11' || sensor.getType() === 'dht22';
-    });
-}
-
-function getFireSensor() {
-    return _.find(sensors, function (sensor) {
-        return sensor.getType() === 'fire';
-    });
-}
-
-function getAC() {
-    return _.find(appliances, function (sensor) {
-        return sensor.getType() === 'ac';
-    });
-}
-
-function getHeater() {
-    return _.find(appliances, function (sensor) {
-        return sensor.getType() === 'heater';
-    });
 }
 
 function updateSettingsVariables(settings) {
