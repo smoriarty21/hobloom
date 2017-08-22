@@ -20,7 +20,6 @@
     <air-conditioner *ngFor="let ac of airConditioners" [ac]="ac" [deleteMode]="deleteMode" (click)="deleteClick(ac.id, ac.getName())" style="float: left"></air-conditioner>
     <fan *ngFor="let fan of fans" [fan]="fan" [deleteMode]="deleteMode" (click)="deleteClick(fan.id, fan.getName())" style="float: left"></fan>
     <current-cycle [cycle]="currentCycle" style="float: left"></current-cycle>
-    <!--<location *ngIf="showMockLocations" style="float: left" [showBlackout]="showBlackout" (showBlackoutChanged)="onEditLocationClick($event)"></location>-->
     <div style="display: inline-block; width: 100%; height: 5px"></div>
   </div>
   <div id="blackout" *ngIf="showBlackout" (click)="closeAllWindows()"></div>
@@ -58,8 +57,6 @@
       </div>
     </div>
   </div>
-
-
   <div id="confirmDeleteContainer" *ngIf="showConfirmDelete">
     <div id="confirmDeleteInnerContainer">
       <div id="confirmDeleteContentContainer">
@@ -71,9 +68,6 @@
       </div>
     </div>
   </div>
-
-
-
   <div id="changeCycleTimesContainer" *ngIf="showCycleTimeSettings">
     <div id="cycleInfoMainWrapper">
       <div class="changeCycleTextContainer">Day Start</div>
@@ -94,7 +88,5 @@
       </div>
     </div>
   </div>
-
-
   <settings *ngIf="showSettings" [showHumiditySettings]="showHumiditySettings" [showHeatSettings]="showHeatSettings" (sendHeatSettingsUpdate)="updateHeatSettingsUI($event)" (sendHumiditySettingsUpdate)="updateHumiditySettingsUI($event)" (closeWindows)="closeAllWindows()" style="position:fixed;top:0;left:0;height:100%;width:100%;z-index: 10;"></settings>
 </div>

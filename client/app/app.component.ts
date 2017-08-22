@@ -218,7 +218,7 @@ export class AppComponent  {
     }
     if (this.selectedDeviceType == this.deviceTypes[2]) {
       // Appliance
-      this.addDeviceType = [ 'Select Sensor Type', 'Humidifier', 'Dehumidifier', 'Light', 'Intake Fan', 'Exhaust Fan', 'Heater', 'A/C' ];
+      this.addDeviceType = [ 'Select Sensor Type', 'Humidifier', 'Dehumidifier', 'Light', 'Intake Fan', 'Exhaust Fan', 'Heater', 'A/C', 'Far Red Light' ];
     }
     this.createDeviceType = this.addDeviceType[0];
     this.closeAllWindows();
@@ -362,7 +362,7 @@ export class AppComponent  {
     }
     if (appliances.length) {
       appliances.forEach((appliance: any) => {
-        if (appliance.getType() == 'light') {
+        if (appliance.getType() == 'light' || appliance.getType() == 'far_red_light') {
           this.lights.push(appliance);
         }
       });
@@ -401,6 +401,9 @@ export class AppComponent  {
         break;
       case ('Exhaust Fan'):
         type = 'exhaust';
+        break;
+      case ('Far Red Light'):
+        type = 'far_red_light';
         break;
       case ('Heater'):
         type = 'heater';

@@ -30,6 +30,8 @@ var currentCycle = null;
 var DAY_START = "7:00:00";
 var DAY_END = "24:00:00";
 
+var time_far_red_started = null;
+
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -274,18 +276,21 @@ function updateLightsForCycle(cycle) {
         return;
     }
     for (var i = 0; i < appliance_utils.getAll().length; i++) {
-        if (appliance_utils.getAll()[i].type !== 'light') {
+        if (appliance_utils.getAll()[i].type !== 'light' || appliance_utils.getAll()[i].type !== 'far_red_light') {
             continue;
         }
         switch (cycle) {
             case 'Day':
-                if (!appliance_utils.getAll()[i].isRunning()) {
+                if (!appliance_utils.getAll()[i].isRunning() && appliance_utils.getAll()[i].type == 'light') {
                     appliance_utils.getAll()[i].turnOn();
                 }
                 break;
             case 'Night':
-                if (appliance_utils.getAll()[i].isRunning()) {
+                if (appliance_utils.getAll()[i].isRunning() && appliance_utils.getAll()[i].type == 'light') {
                     appliance_utils.getAll()[i].turnOff();
+                    if (time_far_red_started == null && appliance_utils.getFarRedLights().length) {
+                        time_far_red_started = Date().now();
+                    }
                 }
                 break;
         }
@@ -300,10 +305,29 @@ function mainLoop() {
     enviromentSensor.setLastReading(enviromentReading);
     enviromentSensor.setLastReadingTime(new Date());
     sensor_utils.updateEnviromentSensorInArray(enviromentSensor);
-    
+
     dl.logSensorData(enviromentReading.temp, Math.floor(enviromentReading.humidity), appliance_utils.getAll()).then(function () {
         checkEnviroment(enviromentReading.humidity, enviromentReading.temp);
     });
+}
+
+function checkFarRedLightTime() {
+    if (time_far_red_started != null) {
+        var off = new Date(time_far_red_started + (15 * 60000));
+        var lights = appliance_utils.getFarRedLights();
+        for (var i = 0; i < lights.length; i++) {
+            if (Date.now() >= off) {
+                if (lights[i].isRunning()) {
+                    lights[i].turnOff();
+                }
+                time_far_red_started = null;
+            } else {
+                if (!lights[i].isRunning()) {
+                    lights[i].turnOn();
+                }
+            }
+        }
+    }
 }
 
 function checkCycleTimes() {
@@ -313,6 +337,8 @@ function checkCycleTimes() {
     var timeAry = timeNow.split(':');
     var starAry = DAY_START.split(':');
     var endAry = DAY_END.split(':');
+
+    checkFarRedLightTime();
 
     if (parseInt(timeAry[0]) >= parseInt(starAry[0]) && parseInt(timeAry[0]) < parseInt(endAry[0])) {
         return 'Day'
@@ -491,7 +517,7 @@ function logError(err) {
     console.log(err);
 }
 
-setInterval(function () { mainLoop(); }, 15*1000);
+setInterval(function () { mainLoop(); }, 5*1000);
 setInterval(function () { fireSensorCheck(); }, 10*1000);
 
 var initPromise = init();
