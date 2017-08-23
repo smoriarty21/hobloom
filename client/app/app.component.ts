@@ -102,7 +102,7 @@ export class AppComponent  {
     this.getCurrentCycle();
     setInterval(() => {
       this.getCurrentCycle();
-    }, 60000 * 15);
+    }, 5 * 60000);
     this.getAppliances();
     this.getSensors();
     this.getLogData();
@@ -114,6 +114,10 @@ export class AppComponent  {
         this.getLogData();
       }
     }, 30000);
+    setInterval(() => {
+      this.getEnviromentInfo();
+    }, 64000);
+    this.getEnviromentInfo();
   }
 
   private setupCycleTimesSettings() {
@@ -513,5 +517,51 @@ export class AppComponent  {
       }
     })
     .subscribe( res => this.settings = res);
+  }
+
+  public lineChartData:Array<any> = [ { data: [ 80 ] }, { data: [ 80 ] } ];
+  public lineChartLabels:Array<any> = [''];
+  public lineChartOptions:any = {
+    responsive: true,
+    legend: { display: false }
+  };
+  public lineChartColors:Array<any> = [
+    {
+      backgroundColor: 'rgba(0,122,255,0.2)',
+      borderColor: 'rgba(77,83,96,1)',
+      pointBackgroundColor: 'rgba(77,83,96,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(77,83,96,1)'
+    },
+    {
+      backgroundColor: 'rgba(255,82,79,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ];
+  public lineChartLegend:boolean = true;
+  public lineChartType:string = 'line';
+
+  private getEnviromentInfo() {
+    this.lineChartLabels = [];
+    this.http.get(GlobalConfig.BASE_URL + 'report/enviroment').
+    map( (responseData) => {
+      return responseData.json().data;
+    }).
+    map((response: any) => {
+      this.lineChartData = [
+        {data: response.humidity},
+        {data: response.temp }
+      ];
+      for (var i = 0; i < this.lineChartData[0].data.length; i++) {
+        this.lineChartLabels.push('');
+      }
+      return this.lineChartData;
+    }).
+    subscribe( res => {});
   }
 }

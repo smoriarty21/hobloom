@@ -26,7 +26,7 @@
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-      'ng2-charts': 'npm:ng2-charts/',
+      'ng2-charts': 'npm:ng2-charts/bundles/ng2-charts.umd.min.js',
       'primeng': 'npm:primeng',
       'angular2-google-maps/core': 'npm:angular2-google-maps/core/core.umd.js'
     },
@@ -38,9 +38,6 @@
       },
       rxjs: {
         defaultExtension: 'js'
-      },
-      'ng2-charts': {
-        main: 'charts.js'
       },
       primeng: {
         defaultExtension: 'js'

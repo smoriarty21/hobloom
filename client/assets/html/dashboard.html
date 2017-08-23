@@ -1,4 +1,3 @@
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 <div id="dashboard-wrapper">
   <div id="dashboard-menu-wrapper">
     <div id="top-bar-logo"></div>
@@ -20,6 +19,17 @@
     <air-conditioner *ngFor="let ac of airConditioners" [ac]="ac" [deleteMode]="deleteMode" (click)="deleteClick(ac.id, ac.getName())" style="float: left"></air-conditioner>
     <fan *ngFor="let fan of fans" [fan]="fan" [deleteMode]="deleteMode" (click)="deleteClick(fan.id, fan.getName())" style="float: left"></fan>
     <current-cycle [cycle]="currentCycle" style="float: left"></current-cycle>
+    <div style="width: 410px;height: 200px;margin: 10px 0 0 10px;background-color: #363636; display: block;float: left">
+      <div style="margin-top: 20px; margin-left: 10px; width: 390px;height: 180px;">
+        <canvas baseChart width="390" height="180"
+                [labels]="lineChartLabels"
+                [legend]="lineChartLegend"
+                [datasets]="lineChartData"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [chartType]="lineChartType"></canvas>
+      </div>
+    </div>
     <div style="display: inline-block; width: 100%; height: 5px"></div>
   </div>
   <div id="blackout" *ngIf="showBlackout" (click)="closeAllWindows()"></div>

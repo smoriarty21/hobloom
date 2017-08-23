@@ -11,6 +11,7 @@
     "beaglebone-dht": "0.0.3",
     "bluebird": "*",
     "body-parser": "^1.15.2",
+    "bonescript": "*",
     "cors": "^2.8.1",
     "express": "*",
     "mongodb": "^2.2.11",
@@ -20,7 +21,6 @@
     "sqlite3": "^3.1.8",
     "time": "^0.11.4",
     "twilio": "^2.11.1",
-    "underscore": "^1.8.3",
-    "bonescript": "*"
+    "underscore": "^1.8.3"
   }
 }

@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent }  from './app.component';
 import { SensorComponent }  from './components/sensor.component';
 import { ApplianceComponent }  from './components/appliance.component';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { ChartsModule } from 'ng2-charts';
 import { SliderModule } from 'primeng/primeng';
 import { LightComponent } from "./components/light.component";
 import { ClockComponent } from "./components/clock.component";
