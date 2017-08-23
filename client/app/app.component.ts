@@ -263,14 +263,21 @@ export class AppComponent  {
       .map((sensors: Array<any>) => {
         let result:Array<Sensor> = [];
         if (sensors) {
+          let temp = 0;
+          let humidity = 0;
+          let dht_sensors = 0;
+
           sensors.forEach((sensor) => {
             let sensorObj = new Sensor(sensor.id, sensor.type, sensor.pin, sensor.name, sensor.last_reading_time, sensor.last_reading);
             if ((sensor.type === 'dht11' || sensor.type === 'dht22') && sensor.last_reading && sensor.last_reading.humidity && sensor.last_reading.fahrenheit) {
-              this.temperature = sensorObj.getTemp();
-              this.humidity = sensorObj.getHumidity();
+              dht_sensors++;
+              temp += sensorObj.getTemp();
+              humidity += sensorObj.getHumidity();
             }
             result.push(sensorObj);
           });
+          this.temperature = Math.floor(temp / dht_sensors);
+          this.humidity = Math.floor(humidity / dht_sensors);
           return result;
         }
       })

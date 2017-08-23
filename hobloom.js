@@ -212,7 +212,6 @@ app.get('/cycle', function (req, res) {
     res.send({ status: 200, data: { current_cycle: currentCycle } });
 });
 
-// TODO: move to asset utils
 function assetsExist() {
     return sensor_utils.getAllSensors().length > 0 && appliance_utils.getAll().length > 0;
 }
@@ -238,7 +237,7 @@ function initAssets(assets) {
         return;
     }
     sensor_utils.setupSensors(assets.sensors);
-    dht.sensor(sensor_utils.getTempHumiditySensor().getType().toUpperCase());
+    dht.sensor(sensor_utils.getTempHumiditySensor()[0].getType().toUpperCase());
     if (sensor_utils.hasFireSensor()) {
         bs.pinMode(sensor_utils.getFireSensor().getPin(), bs.INPUT);
     }
@@ -300,14 +299,28 @@ function updateLightsForCycle(cycle) {
 function mainLoop() {
     currentCycle = checkCycleTimes();
     updateLightsForCycle(currentCycle);
-    enviromentSensor = sensor_utils.getTempHumiditySensor();
-    enviromentReading = enviromentSensor.read();
-    enviromentSensor.setLastReading(enviromentReading);
-    enviromentSensor.setLastReadingTime(new Date());
-    sensor_utils.updateEnviromentSensorInArray(enviromentSensor);
+    var readings = [];
+    var enviromentSensors = sensor_utils.getTempHumiditySensor();
+    for (var i = 0; i < enviromentSensors.length; i++) {
+        enviromentReading = enviromentSensors[i].read();
+        readings.push(enviromentReading)
+        enviromentSensors[i].setLastReading(enviromentReading);
+        enviromentSensors[i].setLastReadingTime(new Date());
+        sensor_utils.updateEnviromentSensorInArray(enviromentSensors[i]);
+    }
 
-    dl.logSensorData(enviromentReading.temp, Math.floor(enviromentReading.humidity), appliance_utils.getAll()).then(function () {
-        checkEnviroment(enviromentReading.humidity, enviromentReading.temp);
+    var temp = 0;
+    var humidity = 0;
+    for (var x = 0; x < readings.length; x++) {
+        temp += readings[x].temp;
+        humidity += readings[x].humidity;
+    }
+    temp = Math.floor(temp / readings.length);
+    humidity = Math.floor(humidity / readings.length);
+
+    dl.logSensorData(temp, humidity, appliance_utils.getAll())
+    .then(function () {
+        checkEnviroment(humidity, temp);
     });
 }
 
