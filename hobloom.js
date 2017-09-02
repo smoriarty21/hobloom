@@ -212,6 +212,24 @@ app.get('/cycle', function (req, res) {
     res.send({ status: 200, data: { current_cycle: currentCycle } });
 });
 
+// Twitch Controls
+// TODO: Add all of this into the RESTFUL put request
+app.post('/appliancepower', function (req, res) {
+    var asset_type = req.body.asset_type;
+    var on = req.body.turn_on == 'true';
+
+    var appliances = appliance_utils.getAppliancesByType(asset_type);
+    for (var i = 0; i < appliances.length; i++) {
+        if (on) {
+            appliances[i].turnOn();
+            continue;
+        }
+        appliances[i].turnOff();
+    }
+    res.send({ status: 200, data: { } });
+});
+
+
 function assetsExist() {
     return sensor_utils.getAllSensors().length > 0 && appliance_utils.getAll().length > 0;
 }
@@ -275,7 +293,7 @@ function updateLightsForCycle(cycle) {
         return;
     }
     for (var i = 0; i < appliance_utils.getAll().length; i++) {
-        if (appliance_utils.getAll()[i].type !== 'light' || appliance_utils.getAll()[i].type !== 'far_red_light') {
+        if (appliance_utils.getAll()[i].type !== 'light' && appliance_utils.getAll()[i].type !== 'far_red_light') {
             continue;
         }
         switch (cycle) {
@@ -298,7 +316,7 @@ function updateLightsForCycle(cycle) {
 
 function mainLoop() {
     currentCycle = checkCycleTimes();
-    updateLightsForCycle(currentCycle);
+    //updateLightsForCycle(currentCycle);
     var readings = [];
     var enviromentSensors = sensor_utils.getTempHumiditySensor();
     for (var i = 0; i < enviromentSensors.length; i++) {
@@ -360,6 +378,7 @@ function checkCycleTimes() {
 }
 
 function fireSensorCheck() {
+    return;
     if (sensor_utils.getFireSensor().read()) {
         alerts.sendFireAlert('sms');
     }
@@ -482,36 +501,36 @@ function handleHumidityCheck(humidity_return) {
 function updateSettingsVariables(settings) {
     if (settings) {
         for (var i = 0; i < settings.length; i++) {
-            if (settings[i].key === 'MAX_HUMIDITY') {
+            if (settings[i].key === 'MAX_HUMIDITY' && parseInt(settings[i].value) != MAX_HUMIDITY) {
                 MAX_HUMIDITY = parseInt(settings[i].value);
                 continue;
             }
-            if (settings[i].key === 'MIN_HUMIDITY') {
+            if (settings[i].key === 'MIN_HUMIDITY' && parseInt(settings[i].value) != MIN_HUMIDITY) {
                 MIN_HUMIDITY = parseInt(settings[i].value);
                 continue;
             }
-            if (settings[i].key === 'MAX_HEAT') {
+            if (settings[i].key === 'MAX_HEAT' && parseInt(settings[i].value) != MAX_HEAT) {
                 MAX_HEAT = parseInt(settings[i].value);
                 continue;
             }
-            if (settings[i].key === 'MIN_HEAT') {
+            if (settings[i].key === 'MIN_HEAT' && parseInt(settings[i].value) != MIN_HEAT) {
                 MIN_HEAT = parseInt(settings[i].value);
                 continue;
             }
-            if (settings[i].key === 'CONTROL_HUMIDITY') {
+            if (settings[i].key === 'CONTROL_HUMIDITY' && settings[i].value != CONTROL_HUMIDITY) {
                 CONTROL_HUMIDITY = settings[i].value;
                 continue;
             }
-            if (settings[i].key === 'CONTROL_HEAT') {
+            if (settings[i].key === 'CONTROL_HEAT' && settings[i].value != CONTROL_HEAT) {
                 CONTROL_HEAT = settings[i].value;
                 continue;
             }
 
-            if (settings[i].key === 'START_DAY') {
+            if (settings[i].key === 'START_DAY' && translateTimeSetting(parseInt(settings[i].value)) != DAY_START) {
                 DAY_START = translateTimeSetting(parseInt(settings[i].value));
                 continue;
             }
-            if (settings[i].key === 'END_DAY') {
+            if (settings[i].key === 'END_DAY' && translateTimeSetting(parseInt(settings[i].value)) != DAY_END) {
                 DAY_END = translateTimeSetting(parseInt(settings[i].value));
                 continue;
             }
@@ -530,8 +549,8 @@ function logError(err) {
     console.log(err);
 }
 
-setInterval(function () { mainLoop(); }, 5*1000);
-setInterval(function () { fireSensorCheck(); }, 10*1000);
+setInterval(function () { mainLoop(); }, 30 * 1000);
+//setInterval(function () { fireSensorCheck(); }, 10*1000);
 
 var initPromise = init();
 var startServerPromise = startServer();

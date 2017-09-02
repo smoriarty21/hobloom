@@ -105,15 +105,16 @@ export class AppComponent  {
     }, 5 * 60000);
     this.getAppliances();
     this.getSensors();
-    this.getLogData();
+    //this.getLogData();
     this.getSettings();
     setInterval(() => {
       this.getAppliances();
       this.getSensors();
+      this.getSettings();
       if (this.router.isLog) {
-        this.getLogData();
+        //this.getLogData();
       }
-    }, 30000);
+    }, 8 * 1000);
     setInterval(() => {
       this.getEnviromentInfo();
     }, 64000);

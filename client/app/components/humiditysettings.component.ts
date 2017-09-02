@@ -15,10 +15,13 @@ export class HumiditySettingsComponent  {
   maxHumidity: string;
 
   constructor(private http: Http) {
-    this.updateSettings();
+    /*this.updateSettings();
     setInterval(() => {
       this.updateSettings();
-    }, 10000);
+    }, 30 * 1000);*/
+    setInterval(() => {
+      this.getSettings();
+    }, 12 * 1000);
   }
 
   private updateSettings() {
@@ -71,6 +74,25 @@ export class HumiditySettingsComponent  {
           });
           return settings;
         }
+      })
+      .subscribe( res => this.settings = res);
+  }
+
+  private getSettings() {
+    this.http.get(GlobalConfig.BASE_URL + 'settings')
+      .map( (responseData) => {
+        return responseData.json().data;
+      })
+      .map( (responseData) => {
+        for (var i = 0; i < responseData.length; i++) {
+          console.log(responseData[i]);
+          if (responseData[i].key === 'MIN_HUMIDITY') {
+            this.minHumidity = responseData[i].value;
+          } else if (responseData[i].key === 'MAX_HUMIDITY') {
+            this.maxHumidity = responseData[i].value;
+          }
+        }
+        return responseData;
       })
       .subscribe( res => this.settings = res);
   }
