@@ -1,7 +1,7 @@
 'use strict';
 
 // Local
-export const IP: string = '192.168.0.20';
+export const IP: string = '192.168.0.6';
 export const PORT: string='1337';
 
 // Remote

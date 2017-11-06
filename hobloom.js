@@ -238,7 +238,7 @@ function init() {
     return new Promise(function(resolve, reject) {
         asset_utils.getAllAssets().
         then(initAssets).
-        then(settings.getSettings).
+        then(settings.getInitialSettings).
         then(updateSettingsVariables).
         then(function () {
             currentCycle = checkCycleTimes();
@@ -470,10 +470,10 @@ function handleHumidityCheck(humidity_return) {
                 appliance_utils.getHumidifier().turnOff();
             }
             if (typeof appliance_utils.getExhaust() != 'undefined' && appliance_utils.getExhaust().isRunning()) {
-                appliance_utils.getExhaust().turnOff();
+                //appliance_utils.getExhaust().turnOff();
             }
             if (typeof appliance_utils.getDehumidifier() != 'undefined' && appliance_utils.getDehumidifier().isRunning()) {
-                appliance_utils.getDehumidifier().turnOff();
+               // appliance_utils.getDehumidifier().turnOff();
             }
             break;
         case 1:
@@ -481,7 +481,7 @@ function handleHumidityCheck(humidity_return) {
                 appliance_utils.getHumidifier().turnOn();
             }
             if (typeof appliance_utils.getExhaust() != 'undefined' && appliance_utils.getExhaust().isRunning()) {
-                appliance_utils.getExhaust().turnOff();
+                //appliance_utils.getExhaust().turnOff();
             }
             break;
         case 2:
@@ -489,10 +489,10 @@ function handleHumidityCheck(humidity_return) {
                 appliance_utils.getHumidifier().turnOff();
             }
             if (typeof appliance_utils.getDehumidifier() != 'undefined' && !appliance_utils.getDehumidifier().isRunning()) {
-                appliance_utils.getDehumidifier().turnOn();
+                //appliance_utils.getDehumidifier().turnOn();
             }
             if (typeof appliance_utils.getExhaust() != 'undefined' && !appliance_utils.getExhaust().isRunning()) {
-                appliance_utils.getExhaust().turnOn();
+                //appliance_utils.getExhaust().turnOn();
             }
             break;
     }

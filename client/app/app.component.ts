@@ -102,7 +102,7 @@ export class AppComponent  {
     this.getCurrentCycle();
     setInterval(() => {
       this.getCurrentCycle();
-    }, 5 * 60000);
+    }, 35 * 60000);
     this.getAppliances();
     this.getSensors();
     //this.getLogData();
@@ -117,7 +117,7 @@ export class AppComponent  {
     }, 8 * 1000);
     setInterval(() => {
       this.getEnviromentInfo();
-    }, 64000);
+    }, 3 * 60000);
     this.getEnviromentInfo();
   }
 
